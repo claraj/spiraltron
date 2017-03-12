@@ -1,0 +1,11 @@
+Hosting
+ - Get on Heroku, cron or schedule job to post tweets
+
+Image source
+ - wikipedia featured pictures?
+ - imgur has PG category?
+ - reddit r/aww ?
+ - thecatapi  (which can return src which Jimp can read)
+
+Image processing
+ - Deal with images of any size. Perhaps assume 800x800? Crop to square then resize

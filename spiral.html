@@ -1,0 +1,95 @@
+HELELLESFDS?<P>
+
+<canvas id='spiral' width=600 height="600">
+
+<style>
+canvas {
+  border: 1px solid black;
+}
+</style>
+
+<script>
+
+var can = document.getElementById('spiral');
+
+var height = can.height;
+var width = can.width;
+var ctx = can.getContext('2d');
+
+ctx.moveTo(0, 40)
+ctx.lineTo(0, 80)
+ctx.lineWidth = 10;
+ctx.stroke()
+
+ctx.beginPath()
+
+ctx.lineWith=1;
+
+ctx.lineTo(0, 120)
+ctx.stroke()
+
+
+/* Math functions like this
+
+console.log(Math.cos(2))
+console.log(Math.atan(0.7))
+console.log(Math.PI)
+
+*/
+
+var angle = 0;
+var spoke = 0;
+var angleInc = Math.PI*2  /  100;    // A circle divided into sections of 100
+var spokeInc = 0.1;
+
+function hitWall(x, y) {
+
+  //return true;
+
+  if (x < 0 || x > height) {
+    // console.log('x hit wall')
+    return true;
+  }
+
+  if (y < 0 || y > height) {
+    // console.log('y hit wall')
+    return true;
+
+  }
+
+//console.log(x + ' ' + y + ' did not hit wall ')
+  return false;
+}
+
+
+var x = width/2;
+var y = height/2;
+
+var absX, absY = 0
+
+ctx.moveTo(x, y);
+
+stop = 0
+
+while ( ! hitWall(x+absX, y+absY))  {
+
+  spoke += spokeInc;
+  angle += angleInc;
+
+  var absX = Math.sin(angle) * spoke;
+  var absY = Math.cos(angle) * spoke;
+
+  ctx.lineTo(absX + x, absY+y);
+  //ctx.lineWidth = 1;
+  ctx.stroke();
+
+  console.log(x + ' ' + y + ' ' + spoke + ' ' + angle + ctx.lineWidth)
+
+
+}
+
+console.log('done!')
+
+
+
+</script>
