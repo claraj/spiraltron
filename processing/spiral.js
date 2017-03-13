@@ -178,39 +178,14 @@ function outputImage(points, size, outfile, callback) {
         var color = Math.min( 255, 256 - (thickness * 64));
 
         var strokeStr = 'rgba('+ color + ',' + color + ',' + color + ',1)'
-        console.log('thickness = ' + thickness + ' color = ' + color + ' str ' + strokeStr)
+        //console.log('thickness = ' + thickness + ' color = ' + color + ' str ' + strokeStr)
 
 
         ctx.strokeStyle = strokeStr;
 
-        //
-        // if (thickness > 3) {
-        //   ctx.strokeStyle = 'rgba(170,170,170,1)';
-        //   // ctx.strokeStyle = 'rgba(170,0,0,1)';
-        // }
-        // else if (thickness > 2) {
-        //
-        //   ctx.strokeStyle = 'rgba(100,100,100,1)';
-        //   // ctx.strokeStyle = 'rgba(0,170,0,1)';
-        //
-        // }  else if (thickness > 1) {
-        //   // draw another line
-        //   // ctx.moveTo(prev[0]-1, prev[1])
-        //   // ctx.lineTo(prev[0]-1, prev[1])   //hacky hack (and doesn't work for diagonal parts
-        //   // console.log('line minus')
-        //   ctx.strokeStyle = 'rgba(0,0,0,1)';
-        //   // ctx.strokeStyle = 'rgba(0,0,170,1)';
-        //
-        // }
-
-        // console.log('3')
 
         ctx.moveTo(prev[0], prev[1])
-        // console.log('4')
-
         ctx.lineTo(data[0], data[1])
-        //console.log('5')
-
         ctx.stroke()    // hangs on NaN values
 
         //console.log('drew point ' + p + ' ' + data)
@@ -221,9 +196,11 @@ function outputImage(points, size, outfile, callback) {
     if (err) {
       console.log('error saving to ' + outfile)
       console.log(err)
+      return callback(err)
 
     } else {
     console.log('saved to ' + outfile)
+    return callback()
   }
   });
 

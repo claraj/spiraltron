@@ -1,11 +1,22 @@
 Hosting
  - Get on Heroku, cron or schedule job to post tweets
 
-Image source
+( others
  - wikipedia featured pictures?
  - imgur has PG category?
  - reddit r/aww ?
  - thecatapi  (which can return src which Jimp can read)
+ - VAM; other museum collections
+)
 
-Image processing
- - Deal with images of any size. Perhaps assume 800x800? Crop to square then resize
+Image processing; configuration of spoke increment, angle increment, colors/line thickness?
+
+Node
+  - Correct use of process.nextTick in callbacks
+
+
+Management
+ - deal with errors correctly
+ - LOGGING
+
+ - TESTS

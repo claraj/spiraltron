@@ -1,12 +1,25 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 100px;
+  font: 22px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+  color: white;
 }
 
 a {
-  color: #00B7FF;
+  color: white;
 }
 
 canvas {
   border: 1px black solid;
+}
+
+body {
+  background-image: url("../images/spiral.png");
+  background-repeat: no-repeat;
+  background-position: top center;
+  /*background-color: #555555;*/
+}
+
+#imgcredit {
+  padding-top: 500px;
 }
