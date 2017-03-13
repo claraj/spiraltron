@@ -1,21 +1,13 @@
 Hosting
- - Get on Heroku, cron or schedule job to post tweets
+- Verify scheduled task is working.
 
-( others
- - wikipedia featured pictures?
- - imgur has PG category?
- - reddit r/aww ?
- - thecatapi  (which can return src which Jimp can read)
- - VAM; other museum collections
-)
-
-Image processing; configuration of spoke increment, angle increment, colors/line thickness?
+Image processing
+- configuration of spoke increment, angle increment, colors/line thickness?
 
 Node
-  - Correct use of process.nextTick in callbacks
+- Correct use of process.nextTick in callbacks
 
-
-Management
+General
  - deal with errors correctly
  - LOGGING
 
