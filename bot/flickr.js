@@ -36,6 +36,12 @@ function requestPhotoData(subject, hoursAgo, callback) {
       return callback(e);
     }
 
+
+    if (imgData.stat == 'fail') {
+      console.log('Flickr error')
+      return callback(new Error(imgData.message));
+    }
+
     console.log('data was ' + data.slice(0, 300) + ' ...');
     return callback(null, imgData);
   });
@@ -88,6 +94,7 @@ function getAttribution(photo, callback) {
       console.log('Error fetching image attribution data ' + err);
       return callback(err);
     } else {
+
       console.log(data)
       try {
         userData = JSON.parse(data);
@@ -95,7 +102,14 @@ function getAttribution(photo, callback) {
         console.log('Error parsing JSON data from Flickr get attribution call');
         return callback(e);
       }
+
+      if (userData.stat == 'fail') {
+        console.log('Flickr error')
+        return callback(new Error(imgData.message));
+      }
+
       return callback(err, userData);
+
     }
   });
 
