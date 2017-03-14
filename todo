@@ -1,14 +1,5 @@
-Hosting
-- Verify scheduled task is working.
-
 Image processing
 - configuration of spoke increment, angle increment, colors/line thickness?
 
 Node
 - Correct use of process.nextTick in callbacks
-
-General
- - deal with errors correctly
- - LOGGING
-
- - TESTS

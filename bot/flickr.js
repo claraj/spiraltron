@@ -29,7 +29,12 @@ function requestPhotoData(subject, hoursAgo, callback) {
       return callback(err)
     }
 
-    imgData = JSON.parse(data);
+    try {
+      imgData = JSON.parse(data);
+    } catch (e) {
+      console.log('Error parsing JSON response from Flickr');
+      return callback(e);
+    }
 
     console.log('data was ' + data.slice(0, 300) + ' ...');
     return callback(null, imgData);
@@ -51,7 +56,7 @@ function getPhotoUrl(photo){
 function getFlickrPageUrl(photo) {
   // Create a direct link to the page that the photo is on; contains more info about the picture
   var flickrUrl = 'https://www.flickr.com/photos/' + photo.owner + '/' + photo.id ;
-  console.log(flickrUrl)
+  console.log(flickrUrl);
   return flickrUrl;
 }
 
@@ -84,7 +89,12 @@ function getAttribution(photo, callback) {
       return callback(err);
     } else {
       console.log(data)
-      userData = JSON.parse(data);
+      try {
+        userData = JSON.parse(data);
+      } catch (e) {
+        console.log('Error parsing JSON data from Flickr get attribution call');
+        return callback(e);
+      }
       return callback(err, userData);
     }
   });
