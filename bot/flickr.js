@@ -1,6 +1,6 @@
 var request = require('request');
 var qs = require('qs')
-/* Hit Flickr to get a cat picture, uploaded today, with free reuse in the licence, and safe for work. */
+
 
 var baseurl = 'https://api.flickr.com/services/rest'
 
@@ -8,7 +8,8 @@ function requestPhotoData(subject, hoursAgo, callback) {
 
   var hours = hoursAgo || 24;
 
-  var timeHoursAgo = Math.floor((new Date().getTime() / 1000 ) - (hours * 60 * 60 * 1000 ))   // Current time - 24 hours in milliseconds
+  // date.getTime() returns milliseconds since Jan 1 1970. Convert to seconds, subtract hours worth of seconds
+  var timeHoursAgo = Math.floor((new Date().getTime() / 1000) - (hours * 60 * 60))   // Current time - 24 hours in milliseconds
   console.log(timeHoursAgo)
 
   var qs = {
@@ -17,7 +18,7 @@ function requestPhotoData(subject, hoursAgo, callback) {
     api_key : process.env.FLICKR_KEY,
     text :  subject,
     min_upload_date : timeHoursAgo,
-    license : '7',   // no known copyright restrictions
+    license : '1,2,4,6,7,8,9,10',   // Licences that have no copyright restrictions or permit reuse with derivatives and attribution
     safe_search: 1,      //safe for work
     nojsoncallback: 1    // or JSONP is returned
   }
@@ -30,7 +31,7 @@ function requestPhotoData(subject, hoursAgo, callback) {
     }
 
     try {
-      imgData = JSON.parse(data);
+      var imgData = JSON.parse(data);
     } catch (e) {
       console.log('Error parsing JSON response from Flickr');
       return callback(e);
@@ -64,6 +65,81 @@ function getFlickrPageUrl(photo) {
   var flickrUrl = 'https://www.flickr.com/photos/' + photo.owner + '/' + photo.id ;
   console.log(flickrUrl);
   return flickrUrl;
+}
+
+
+function getPhotoInfo(photo, callback) {
+
+  var query = {
+    method: 'flickr.photos.getInfo',
+    api_key: process.env.FLICKR_KEY,
+    photo_id: photo.id,
+    secret: photo.secret,
+    format: 'json',
+    nojsoncallback: 1
+  }
+
+  request( {url:baseurl, qs: query}, function(err, response, data){
+
+    if (err) {
+      console.log(err)
+      return callback(err);
+    }
+
+    try {
+      console.log(data)
+      var photoInfo = JSON.parse(data);
+    } catch (e) {
+      console.log('Error parsing photo info JSON response from Flickr');
+      return callback(e);
+    }
+
+    return callback(null, photoInfo);
+  });
+
+
+}
+
+
+function getLicence(photo, callback) {
+
+  /* Get link to licence, for proper attribution */
+
+  // First get photo info
+  getPhotoInfo(photo, function(err, photoInfo){
+
+    var query = {
+      method: 'flickr.photos.licenses.getInfo',
+      api_key: process.env.FLICKR_KEY,
+      format: 'json',
+      nojsoncallback: 1
+    }
+
+    request( { url : baseurl, qs : query }, function(err, response, data) {
+
+      if (err) {
+        console.log(err)
+        return callback(err);
+      }
+
+      try {
+        var licenseData = JSON.parse(data).licenses.license;
+
+      } catch (e) {
+        return callback(e);
+      }
+
+      var license = photoInfo.photo.license; //// license is photo.license, (e.g. '7')
+
+      for (var l = 0; l < licenseData.length ; l++) {
+        if (licenseData[l].id == license ) {
+          return callback(null, licenseData[l]);
+        }
+      }
+      callback(new Error('Licence information not found'));
+    });
+});
+
 }
 
 
@@ -108,8 +184,16 @@ function getAttribution(photo, callback) {
         return callback(new Error(imgData.message));
       }
 
-      return callback(err, userData);
+      // Get license
 
+      getLicence(photo, function(err, licenseData){
+
+        if (err) {
+          return callback(err);
+        }
+
+        return callback(null, userData, licenseData);
+      })
     }
   });
 

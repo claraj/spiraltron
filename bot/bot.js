@@ -28,7 +28,7 @@ flickr.requestPhotoData(subject, withinHours, function(err, data) {
     var index = Math.floor(results * Math.random());        // Randomly pick a result
 
     photo = data.photos.photo[index];
-    console.log(index, photo);
+    console.log('Photo: ' + index, photo);
 
     var photoUrl = flickr.getPhotoUrl(photo);
     var flickrUrl = flickr.getFlickrPageUrl(photo);
@@ -45,15 +45,18 @@ flickr.requestPhotoData(subject, withinHours, function(err, data) {
             console.log('save error ' + err);
           }
 
-          flickr.getAttribution(photo, function(err, data){
+          flickr.getAttribution(photo, function(err, userData, licenseData){
             if (err) {
-              console.log('error  ' +  error);
+              console.log('error  ' +  err);
             } else {
 
               // Create a status and post to Twitter
-              console.log('Image attribute data ' +  JSON.stringify(data));
+              console.log('\n');
 
-              var status = 'Spiralized from ' + flickrUrl + ' posted by ' + data.user.username._content;
+              console.log('***** Image attribute data \n' +  JSON.stringify(userData));
+              console.log('***** Image license data \n' +  JSON.stringify(licenseData));
+
+              var status = 'Spiralized from ' + flickrUrl + ' posted by ' + userData.user.username._content + ' with this licence; ' + licenseData.name + ', ' + licenseData.url;
               console.log('Status: ' + status);
 
               twitter(status, outFileName, function(err, tweet){
@@ -63,6 +66,7 @@ flickr.requestPhotoData(subject, withinHours, function(err, data) {
                   console.log('Tweet posted, check twitter');
                 }
               });
+
             }
           });
         });
