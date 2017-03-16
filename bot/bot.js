@@ -56,12 +56,15 @@ flickr.requestPhotoData(subject, withinHours, function(err, data) {
               console.log('***** Image attribute data \n' +  JSON.stringify(userData));
               console.log('***** Image license data \n' +  JSON.stringify(licenseData));
 
-              var status = 'Spiralized from ' + flickrUrl + ' posted by ' + userData.user.username._content + ' with this licence; ' + licenseData.name + ', ' + licenseData.url;
+              var status = 'Spiralized from ' + flickrUrl+ ' by ' + userData.user.username._content + ', ' + licenseData.name + ', ' + licenseData.url;
               console.log('Status: ' + status);
+              console.log('Status length: ' + status.length);
+
 
               twitter(status, outFileName, function(err, tweet){
                 if (err) {
                   console.log('error posting tweet');
+                  console.log(err)
                 } else {
                   console.log('Tweet posted, check twitter');
                 }
