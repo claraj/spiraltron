@@ -67,8 +67,8 @@ function spiralize(size, image, callback) {
 
       var angle = 0;
       var spoke = 0;
-      var angleInc = Math.PI*2  /  100;    // A circle divided into sections of 100
-      var spokeInc = 0.01;               // How much to grow the radius of the spriral after every turn
+      var angleInc = Math.PI*2  /  200;    // A circle divided into sections of 100
+      var spokeInc = 0.03;               // How much to grow the radius of the spriral after every turn
 
       var height = size;
       var width = size;
