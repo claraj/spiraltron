@@ -18,7 +18,7 @@ function requestPhotoData(subject, hoursAgo, callback) {
     api_key : process.env.FLICKR_KEY,
     text :  subject,
     min_upload_date : timeHoursAgo,
-    license : '1,2,4,6,7,8,9,10',   // Licences that have no copyright restrictions or permit reuse with derivatives and attribution
+    license : '1,2,4,7,8,9,10',   // Licences that have no copyright restrictions or permit reuse with derivatives and attribution
     safe_search: 1,      //safe for work
     nojsoncallback: 1    // or JSONP is returned
   }
