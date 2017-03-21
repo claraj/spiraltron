@@ -4,7 +4,7 @@ var spiral = require('../processing/spiral');
 
 /* Configuration */
 var outSize = 1000;
-var subject = 'portrait';
+var subject = 'cat';
 var withinHours = 8;            // Bot runs every 8 hours. Try to avoid fetching repeated images.
 var outFileName = 'spiral.png';
 
